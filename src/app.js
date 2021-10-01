@@ -94,19 +94,16 @@ app.post("/login", async (req, res) => {
         }
         if (password === userrecord.password) {
             sess = req.session;
-            sess.name = userrecord.firstname;
             sess.email = userrecord.email;
             const token = await userrecord.generateAuthToken();
-            console.log("token is:" + token);
 
             res.cookie("jwt", token, {
                 expires: new Date(Date.now() + 100000),
                 httpOnly: true,
-                // secure:true   --uncomment this while production--
+                secure:true 
             });
             res.status(201).redirect("home");
         } else {
-            //res.send("password are not matching");
             res.redirect("/login");
         }
     } catch (error) {
@@ -117,10 +114,8 @@ app.post("/login", async (req, res) => {
 app.get("/home", authenticate, (req, res) => {
     if (req.session.email) {
         res.render("home", {
-            user: req.session.name,
             email: req.session.email,
         });
-        console.log(`the cookie is : ${req.cookies.jwt}`);
     } else {
         res.redirect("/login");
     }
