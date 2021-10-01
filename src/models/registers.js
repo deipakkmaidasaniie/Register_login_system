@@ -25,7 +25,7 @@ empSchema.methods.generateAuthToken = async function () {
     try {
         const token = jwt.sign(
             { _id: this._id.toString() },
-            port.env.USER_ACCESS_KEY
+            process.env.USER_ACCESS_KEY
         );
         this.tokens = this.tokens.concat({ token: token });
         await this.save();
