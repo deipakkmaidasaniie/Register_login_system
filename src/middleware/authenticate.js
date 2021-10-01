@@ -17,7 +17,7 @@ async function authenticate(req, res, next) {
         }
         const verifyuser = jwt.verify(
             token,
-            "mynameisdeepakmaidasaniandiamindaiict"
+            process.env.USER_ACCESS_KEY
         );
         const user = await Register.findOne({ _id: verifyuser._id });
         next();
